@@ -71,8 +71,14 @@ Do **not** rely on demo seed. With an empty DB:
 ## Data & backups
 
 - Single file (plus WAL/SHM): path from `DATABASE_PATH` (default `./data/raabta.db`)
+- On open/create the app attempts `chmod 0600` on the DB file (ignored if the FS does not support it) — keep the data directory private on the host as well
 - Back up the DB file regularly; it holds leads, notes, password hashes, sessions, import jobs
 - Restoring = stop app, replace DB files, start app (schema migrates on open)
+
+## Auth hygiene (v0.3)
+
+- Register / Team create: password **minimum 10** characters
+- Login + register: soft in-memory rate limit ≤10 failures / 15 minutes per IP (and per-email for login) → HTTP **429** with `Retry-After` (single-node only; not shared across replicas)
 
 ## Health & rollback
 
@@ -86,4 +92,4 @@ Terminate TLS at your reverse proxy or platform. Prefer Secure cookies on HTTPS.
 
 ## Publish record
 
-See [PUBLISH.md](./PUBLISH.md) for the factory publish checklist / first GitHub release notes (v0.1.0). Application version in `package.json` is **0.2.0** (Ads Drop).
+See [PUBLISH.md](./PUBLISH.md) for the factory publish checklist / first GitHub release notes (v0.1.0). Application version in `package.json` is **0.3.0**.

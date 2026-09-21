@@ -107,13 +107,14 @@ Pehli dafa bina seed ke **Register** se naya account banao — **pehla user Owne
 
 Login ke baad usually yeh sections milte hain:
 
-1. **Dashboard** — counts, overdue, pipeline value (PKR)
-2. **Board / Leads (Kanban)** — stages: new → qualified → follow_up → won / lost
-3. **Follow-ups** — aaj due + overdue list
-4. **Lead detail** — edit, notes, WhatsApp button
-5. **Team** (sirf Owner) — agent users banana
-6. **Ads Drop / Imports** — Meta CSV/Excel import
-7. **Export** (Owner) — leads CSV download
+1. **Dashboard** — counts, overdue, pipeline health, import reminder, empty checklist
+2. **Leads** — searchable list (name/phone/source/campaign/owner filters)
+3. **Board (Kanban)** — stages: new → qualified → follow_up → won / lost; Show archived
+4. **Follow-ups** — aaj due + overdue + WhatsApp chips
+5. **Lead detail** — edit, notes, templates, Archive, WhatsApp chips
+6. **Team** (sirf Owner) — agent users (password min 10)
+7. **Ads Drop / Imports** — Meta CSV/Excel import
+8. **Export** (Owner) — leads CSV download
 
 Exact menu names UI version pe thore different ho sakte hain; meaning same hai.
 
@@ -249,7 +250,7 @@ Won / lost leads board bhar dete hain. **Archive** soft-hide karta hai (delete n
 3. Board pe **Show archived** se wapas dekho  
 4. **Unarchive** se wapas active pipeline mein  
 
-Hard delete ab bhi Owner ke paas hai, lekin prefer archive.
+Owner kisi bhi lead ko archive kar sakta hai; **agent sirf apni**. Hard delete ab bhi allowed hai, lekin prefer archive.
 
 ---
 
@@ -278,7 +279,19 @@ Live Meta API nahi — CSV dubara upload zaroori hai.
 ## 7.14 Quick note templates + pipeline health (v0.3)
 
 - Lead detail → **Quick templates / Tez notes** (8 ready lines, EN + Roman Urdu) → note field mein insert → Add note  
-- Dashboard **Pipeline health**: overdue count + value, stale leads (>7 din update nahi), imports this week — cards pe click se follow-ups / board / Ads Drop
+- Dashboard **Pipeline health**: overdue count + value, stale leads, imports this week — click → follow-ups / `/leads?source=meta_ads` / Ads Drop
+
+---
+
+## 7.15 Leads list / search (v0.3)
+
+Nav → **Leads** (`/leads`):
+
+1. Search box — naam, phone, email  
+2. Filters — stage, source (`meta_ads`), Meta campaign, owner (sirf Owner), Show archived  
+3. Row pe WhatsApp + Open; chips se prefilled message  
+
+**Agent** sirf apni leads dekhta hai (dusre `owner_id` filter ignore).
 
 ---
 
@@ -310,8 +323,9 @@ Live Meta API nahi — CSV dubara upload zaroori hai.
 
 ## 10. Security / privacy tips
 
-- Demo passwords public deploy pe mat chhoro  
-- `data/*.db` backup privately rakho (leads + password hashes)  
+- Demo passwords public deploy pe mat chhoro; naya register / Team password **min 10** chars  
+- Login fail zyada hone pe **429** (soft rate limit ~10 / 15 min)  
+- `data/*.db` backup privately; app open pe mode **0600** set karne ki koshish hoti hai  
 - HTTPS pe `COOKIE_SECURE=true`  
 - Internet pe open karne se pehle `npm audit` / updates dekho  
 

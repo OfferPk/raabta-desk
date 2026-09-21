@@ -63,7 +63,7 @@ See `.env.example`:
 8. Dashboard counts + open pipeline value (PKR)
 9. Owner CSV export at `/api/export/leads.csv`
 10. **Ads Drop** — Meta CSV/XLSX import with map/preview/commit, dedupe, presets, nudge
-
+11. **v0.3:** soft-archive, empty-state checklist, import cadence banner, `/leads` search+filters, WhatsApp prefill chips, note templates, pipeline health strip, auth rate limit + password min 10
 
 ## Ads Drop (v0.2)
 
@@ -87,7 +87,7 @@ No Meta App credentials or Marketing API — file upload only. Sample fixture: `
 | [CONFIGURATION.md](./CONFIGURATION.md) | Env vars from `.env.example` |
 | [API.md](./API.md) | Every `/api/**` route |
 | [DEPLOYMENT.md](./DEPLOYMENT.md) | Build, run, COOKIE_SECURE |
-| [CHANGELOG.md](./CHANGELOG.md) | Release history (0.1.0 → 0.2.0) |
+| [CHANGELOG.md](./CHANGELOG.md) | Release history (0.1.0 → 0.3.0) |
 | [docs/PRODUCT.md](./docs/PRODUCT.md) | End-user product guide |
 | [GUIDE-roman-urdu.md](./GUIDE-roman-urdu.md) | Roman Urdu step-by-step |
 | [PUBLISH.md](./PUBLISH.md) | First GitHub publish record |

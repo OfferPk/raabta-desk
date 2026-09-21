@@ -30,6 +30,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/). Versioning: [SemVer](ht
 - Dashboard stats exclude archived leads; expose archive/stale/import cadence fields.
 - Version **0.3.0**.
 
+### Security
+
+- Soft in-memory login/register rate limit (≤10 failures / 15 min) → **429**.
+- Password floor **10** on register + Team create.
+- SQLite DB `chmod 0600` after open/create when the filesystem allows.
+- Soft-archive authz: owner any lead; agent own leads only (`canAccessLead`).
+
 ## [0.2.0] — 2026-09-21
 
 ### Added
