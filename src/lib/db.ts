@@ -30,8 +30,12 @@ export function getDb(): Database.Database {
   db.pragma("foreign_keys = ON");
   migrate(db);
   // Harden file mode when the FS supports chmod (ignore errors on unsupported FS).
+  // Skip vitest temp DBs (basename test-*) to avoid parallel-suite races.
   try {
-    if (fs.existsSync(dbPath)) fs.chmodSync(dbPath, 0o600);
+    const base = path.basename(dbPath);
+    if (fs.existsSync(dbPath) && !base.startsWith("test-")) {
+      fs.chmodSync(dbPath, 0o600);
+    }
   } catch {
     /* ignore */
   }
