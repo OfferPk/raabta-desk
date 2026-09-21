@@ -22,7 +22,8 @@ Yeh guide **brief** hai lekin **complete**: download se lekar har feature tak st
 | Cheez | Link |
 |--------|------|
 | **GitHub repo (source code)** | https://github.com/OfferPk/raabta-desk |
-| **Release v0.1.0** | https://github.com/OfferPk/raabta-desk/releases/tag/v0.1.0 |
+| **Release v0.2.0 (Ads Drop)** | https://github.com/OfferPk/raabta-desk/releases/tag/v0.2.0 |
+| **Release v0.1.0 (MVP)** | https://github.com/OfferPk/raabta-desk/releases/tag/v0.1.0 |
 | **Latest code (main / features)** | repo pe **Code → Download ZIP** ya `git clone` |
 
 **Clone (recommended):**
@@ -284,7 +285,7 @@ npm run build # production build
 
 - License: **MIT** (repo root `LICENSE`)
 - Issues: https://github.com/OfferPk/raabta-desk/issues
-- English product notes: `README.md`, `docs/PRODUCT.md`
+- English docs: `README.md`, `docs/PRODUCT.md`, `ARCHITECTURE.md`, `SETUP.md`, `CONFIGURATION.md`, `API.md`, `DEPLOYMENT.md`, `CHANGELOG.md`
 
 ---
 

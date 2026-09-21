@@ -80,8 +80,17 @@ No Meta App credentials or Marketing API — file upload only. Sample fixture: `
 
 ## Docs
 
-- Product guide: [`docs/PRODUCT.md`](docs/PRODUCT.md)
-- PRD: `/workspace/factory/research/PRD-first-mvp.md`
+| Doc | What it covers |
+|-----|----------------|
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Components, data model, auth, Ads Drop flow |
+| [SETUP.md](./SETUP.md) | Prerequisites, install, seed, verify |
+| [CONFIGURATION.md](./CONFIGURATION.md) | Env vars from `.env.example` |
+| [API.md](./API.md) | Every `/api/**` route |
+| [DEPLOYMENT.md](./DEPLOYMENT.md) | Build, run, COOKIE_SECURE |
+| [CHANGELOG.md](./CHANGELOG.md) | Release history (0.1.0 → 0.2.0) |
+| [docs/PRODUCT.md](./docs/PRODUCT.md) | End-user product guide |
+| [GUIDE-roman-urdu.md](./GUIDE-roman-urdu.md) | Roman Urdu step-by-step |
+| [PUBLISH.md](./PUBLISH.md) | First GitHub publish record |
 
 ## Notes
 
