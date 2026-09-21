@@ -1,0 +1,6 @@
+id,created_time,ad_id,ad_name,adset_id,adset_name,campaign_id,campaign_name,form_id,form_name,is_organic,platform,full_name,email,phone_number,custom_question_1
+ml_1001,2026-09-20T10:15:00+0000,ad1,Spring Ad,as1,Spring Set,c1,Spring Homes PK,f1,Lead Form,false,fb,Ali Khan,ali@example.com,03001110001,Interested in 5 marla
+ml_1002,2026-09-20T11:00:00+0000,ad1,Spring Ad,as1,Spring Set,c1,Spring Homes PK,f1,Lead Form,false,fb,Sara Ahmed,sara@example.com,923001110002,Budget 50 lac
+ml_1003,2026-09-20T12:00:00+0000,ad2,Summer Ad,as2,Summer Set,c1,Spring Homes PK,f1,Lead Form,false,ig,No Phone Lead,nophone@example.com,,Wants callback
+ml_1004,2026-09-20T13:00:00+0000,ad2,Summer Ad,as2,Summer Set,c1,Spring Homes PK,f1,Lead Form,false,fb,Short Phone,short@example.com,12345,Too short
+ml_1005,2026-09-20T14:00:00+0000,ad3,Fall Ad,as3,Fall Set,c2,Fall Campaign,f1,Lead Form,false,fb,Dupe Phone User,dupe@example.com,923001111111,Matches seed owner lead phone
