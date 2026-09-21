@@ -106,3 +106,21 @@
 **Tests:** agent foreign `note_on_match` → `duplicate_phone` / no note; agent job/report omits foreign `lead_id`.
 
 **Docs:** GUIDE Ads Drop authz line; STATUS security fix note.
+
+## v0.3.0 P0 + improve delta (2026-09-21, Asia/Karachi)
+
+**Source:** Master P0 (soft-archive, empty-state, import cadence) + IMPROVE delta (WA chips, `/leads` filters, auth hygiene). P1 note templates + pipeline health strip also landed.
+
+| Area | Change | Key files |
+|------|--------|-----------|
+| Soft-archive | `archived_at` via `ensureColumn`; hide by default; board `?archived=1`; PATCH `{archived}`; authz = `canAccessLead` (owner any / agent own) | `db.ts`, `leads.ts`, `LeadDetail.tsx`, `BoardArchiveToggle.tsx`, `board/page.tsx` |
+| Onboarding | 3-step EN+RU checklist; dismiss per-user setting; sample lead CTA | `OnboardingChecklist.tsx`, `settings.ts`, `api/settings`, `api/leads/sample` |
+| Import cadence | `import_remind_days` (default 3); banner from last `import_jobs.finished_at` | `ImportCadenceBanner.tsx`, `getDashboardStats`, dashboard |
+| WA chips | `toWhatsAppUrl(phone, text?)`; chips on detail / follow-ups / leads list | `phone.ts`, `wa-chips.ts`, `WaMessageChips.tsx` |
+| Leads list | `/leads` + Nav; `q`/stage/source/campaign/owner_id; agent scoped | `leads/page.tsx`, `listLeads`, `GET /api/leads` |
+| Auth hygiene | rate limit Map ≤10/15m → 429; password min 10; `chmod 0600` | `rate-limit.ts`, login/register/users, `db.ts` |
+| Docs | CHANGELOG / STATUS / GUIDE / README / DEPLOYMENT / FIX-NOTES | |
+
+**Authz choice (archive):** Prefer owner; agents may archive **own** leads only (same as update). Documented in CHANGELOG.
+
+**Verification:** `npm test` green; `npm run build` success; version **0.3.0**. No GitHub push.
