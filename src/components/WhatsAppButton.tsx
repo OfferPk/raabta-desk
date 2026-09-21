@@ -1,0 +1,28 @@
+import { toWhatsAppUrl } from "@/lib/phone";
+
+export function WhatsAppButton({
+  phone,
+  className = "",
+}: {
+  phone: string;
+  className?: string;
+}) {
+  const url = toWhatsAppUrl(phone);
+  if (!url) {
+    return (
+      <span className="text-xs text-slate-400" title="Invalid phone">
+        No WA link
+      </span>
+    );
+  }
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`btn-wa ${className}`}
+    >
+      WhatsApp
+    </a>
+  );
+}
