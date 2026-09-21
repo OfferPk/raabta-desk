@@ -2,9 +2,13 @@ import Link from "next/link";
 import { getSessionUser } from "@/lib/auth";
 import { followUpQueue, getDashboardStats } from "@/lib/leads";
 import { formatMoney, formatDateTime } from "@/lib/format";
+import { isOnboardingDismissed } from "@/lib/settings";
 import { STAGE_LABELS, STAGES, type Stage } from "@/lib/types";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { StageBadge } from "@/components/StageBadge";
+import { OnboardingChecklist } from "@/components/OnboardingChecklist";
+import { ImportCadenceBanner } from "@/components/ImportCadenceBanner";
+import { PipelineHealthStrip } from "@/components/PipelineHealthStrip";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +17,8 @@ export default async function DashboardPage() {
   const ownerId = user.role === "owner" ? undefined : user.id;
   const stats = getDashboardStats({ ownerId });
   const queue = followUpQueue({ ownerId }).slice(0, 8);
+  const showOnboarding =
+    stats.total_leads === 0 && !isOnboardingDismissed(user.id);
 
   return (
     <div className="space-y-6">
@@ -28,6 +34,26 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
+      <OnboardingChecklist
+        show={showOnboarding || stats.total_leads === 0}
+        initiallyDismissed={isOnboardingDismissed(user.id)}
+      />
+
+      <ImportCadenceBanner
+        show={stats.import_cadence_due}
+        remindDays={stats.import_remind_days}
+        lastImportAt={stats.last_import_at}
+        isOwner={user.role === "owner"}
+      />
+
+      <PipelineHealthStrip
+        overdue={stats.overdue}
+        overdueValueCents={stats.overdue_value_cents}
+        currency={stats.currency}
+        staleLeads={stats.stale_leads}
+        importsThisWeek={stats.imports_this_week}
+      />
+
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard label="Total leads" value={String(stats.total_leads)} />
         <StatCard
@@ -41,6 +67,16 @@ export default async function DashboardPage() {
           value={formatMoney(stats.open_pipeline_cents, stats.currency)}
         />
       </div>
+
+      {stats.archived_count > 0 && (
+        <p className="text-xs text-slate-500">
+          {stats.archived_count} archived lead
+          {stats.archived_count === 1 ? "" : "s"} hidden —{" "}
+          <Link href="/board?archived=1" className="text-teal-700 hover:underline">
+            show on board
+          </Link>
+        </p>
+      )}
 
       <div className="card">
         <h2 className="mb-3 text-sm font-semibold text-slate-700">By stage</h2>

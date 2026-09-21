@@ -11,10 +11,30 @@ export async function GET(req: NextRequest) {
   const start = Date.now();
   try {
     const user = await requireUser();
-    const stage = req.nextUrl.searchParams.get("stage") as Stage | null;
+    const sp = req.nextUrl.searchParams;
+    const stage = sp.get("stage") as Stage | null;
+    const archived = sp.get("archived");
+    const q = sp.get("q");
+    const source = sp.get("source");
+    const metaCampaign = sp.get("meta_campaign");
+    const ownerParam = sp.get("owner_id");
+
+    // Agents stay scoped to self; owners may filter by owner_id.
+    let ownerId: string | undefined;
+    if (user.role === "agent") {
+      ownerId = user.id;
+    } else if (ownerParam) {
+      ownerId = ownerParam;
+    }
+
     const leads = listLeads({
-      ownerId: user.role === "owner" ? undefined : user.id,
+      ownerId,
       stage: stage && STAGES.includes(stage) ? stage : undefined,
+      includeArchived: archived === "1" || archived === "all",
+      archivedOnly: archived === "only",
+      q: q || undefined,
+      source: source || undefined,
+      meta_campaign: metaCampaign || undefined,
     });
     logRequest({
       requestId,

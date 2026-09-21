@@ -7,6 +7,7 @@ import type { Lead } from "@/lib/types";
 import { formatDateTime, formatMoney, startOfTodayISO } from "@/lib/format";
 import { StageBadge } from "./StageBadge";
 import { WhatsAppButton } from "./WhatsAppButton";
+import { WaMessageChips } from "./WaMessageChips";
 
 export function FollowUpList({ leads: initial }: { leads: Lead[] }) {
   const [leads, setLeads] = useState(initial);
@@ -88,7 +89,8 @@ export function FollowUpList({ leads: initial }: { leads: Lead[] }) {
                 {l.owner_name ? ` · ${l.owner_name}` : ""}
               </div>
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex w-full flex-col gap-1.5 sm:w-auto">
+              <div className="flex flex-wrap gap-1.5">
               <WhatsAppButton phone={l.phone} className="text-xs !py-1.5" />
               <button
                 type="button"
@@ -106,6 +108,8 @@ export function FollowUpList({ leads: initial }: { leads: Lead[] }) {
               >
                 Done
               </button>
+              </div>
+              <WaMessageChips phone={l.phone} />
             </div>
           </li>
         );

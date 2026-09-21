@@ -6,6 +6,7 @@ import {
   deleteLead,
   getLead,
   listNotes,
+  setLeadArchived,
   updateLead,
 } from "@/lib/leads";
 import { PHONE_REQUIRED_HINT, preparePhoneForStorage } from "@/lib/phone";
@@ -118,6 +119,17 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
       patch.next_follow_up = body.next_follow_up
         ? String(body.next_follow_up)
         : null;
+    }
+
+    // Soft-archive (preferred over hard delete for won/lost clutter)
+    if (body.archived !== undefined) {
+      const archived =
+        body.archived === true ||
+        body.archived === 1 ||
+        body.archived === "1" ||
+        body.archived === "true";
+      const updated = setLeadArchived(id, archived);
+      return NextResponse.json({ lead: updated });
     }
 
     const updated = updateLead(id, patch as Parameters<typeof updateLead>[1]);

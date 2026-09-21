@@ -22,6 +22,7 @@ Yeh guide **brief** hai lekin **complete**: download se lekar har feature tak st
 | Cheez | Link |
 |--------|------|
 | **GitHub repo (source code)** | https://github.com/OfferPk/raabta-desk |
+| **Release v0.3.0 (archive / onboarding)** | (ship after publish) |
 | **Release v0.2.0 (Ads Drop)** | https://github.com/OfferPk/raabta-desk/releases/tag/v0.2.0 |
 | **Release v0.1.0 (MVP)** | https://github.com/OfferPk/raabta-desk/releases/tag/v0.1.0 |
 | **Latest code (main / features)** | repo pe **Code → Download ZIP** ya `git clone` |
@@ -190,6 +191,8 @@ Stages: `new` | `qualified` | `follow_up` | `won` | `lost`
 
 **Result:** Turant chat — koi paid WhatsApp API nahi.
 
+Lead detail / Follow-ups pe **message chips** (Salam, Follow-up, …) `wa.me?text=` prefill karti hain — aap phir bhi khud Send dabate ho.
+
 ---
 
 ### 7.8 Dashboard
@@ -237,14 +240,56 @@ CSV formula-injection se bachao ke liye cells sanitize hote hain.
 
 ---
 
+## 7.11 Soft-archive (v0.3) — won/lost clutter
+
+Won / lost leads board bhar dete hain. **Archive** soft-hide karta hai (delete nahi).
+
+1. Lead detail kholo  
+2. **Archive** dabao → board, follow-up queue, dashboard counts se hide  
+3. Board pe **Show archived** se wapas dekho  
+4. **Unarchive** se wapas active pipeline mein  
+
+Hard delete ab bhi Owner ke paas hai, lekin prefer archive.
+
+---
+
+## 7.12 Pehli dafa / empty onboarding (v0.3)
+
+Jab desk khali ho, Dashboard / Board / Ads Drop pe **3-step checklist** dikhti hai (English + Roman Urdu):
+
+1. Ads Drop se Meta import  
+2. Follow-ups clear  
+3. New lead / Board  
+
+**Dismiss / Chhupa do** se hide. **Seed sample lead** se demo lead + note ban jati hai.
+
+---
+
+## 7.13 Ads Drop import reminder (v0.3)
+
+Live Meta API nahi — CSV dubara upload zaroori hai.
+
+- Default: **3 din** mein koi successful import na ho to Dashboard pe amber banner  
+- Owner banner pe **Remind if no import in N days** change karke Save kar sakta hai (1–90)  
+- **Open Ads Drop** se seedha `/imports`
+
+---
+
+## 7.14 Quick note templates + pipeline health (v0.3)
+
+- Lead detail → **Quick templates / Tez notes** (8 ready lines, EN + Roman Urdu) → note field mein insert → Add note  
+- Dashboard **Pipeline health**: overdue count + value, stale leads (>7 din update nahi), imports this week — cards pe click se follow-ups / board / Ads Drop
+
+---
+
 ## 8. Rozana workflow (short)
 
 1. Owner / agent login  
-2. Dashboard → overdue clear karo  
-3. Nayi WhatsApp inquiry → New lead + note  
-4. Stage aage badhao  
+2. Dashboard → pipeline health + overdue clear karo; import reminder ho to Ads Drop  
+3. Nayi WhatsApp inquiry → New lead + note (templates use karo)  
+4. Stage aage badhao; won/lost ko **Archive**  
 5. WhatsApp button se follow-up  
-6. Haftay mein Meta ads chalain to **Ads Drop** se CSV import  
+6. Har N din Meta CSV **Ads Drop** se import (reminder default 3 din)  
 7. Owner kabhi kabhi CSV export backup
 
 ---

@@ -6,7 +6,7 @@ import { listLeads } from "@/lib/leads";
 export async function GET() {
   try {
     await requireOwner();
-    const leads = listLeads();
+    const leads = listLeads({ includeArchived: true });
     const header = [
       "id",
       "name",
@@ -18,6 +18,7 @@ export async function GET() {
       "value_cents",
       "currency",
       "next_follow_up",
+      "archived_at",
       "created_at",
       "updated_at",
     ];
@@ -35,6 +36,7 @@ export async function GET() {
           l.value_cents,
           l.currency,
           l.next_follow_up,
+          l.archived_at ?? "",
           l.created_at,
           l.updated_at,
         ]

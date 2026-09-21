@@ -110,8 +110,8 @@ export default function UsersPage() {
           <input name="email" type="email" className="input" required />
         </div>
         <div>
-          <label className="label">Password (min 6)</label>
-          <input name="password" type="password" minLength={6} className="input" required />
+          <label className="label">Password (min 10)</label>
+          <input name="password" type="password" minLength={10} className="input" required />
         </div>
         {error && (
           <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">

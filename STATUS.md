@@ -1,8 +1,8 @@
 # Raabta Desk — STATUS
 
 **Project ID:** `proj_raabta_desk_001`  
-**Status:** ADS DROP SECURITY M1/M2/M3 FIXED
-**Updated:** 2026-09-21T17:30:32+05:00 (Asia/Karachi)
+**Status:** V0.3 IMPROVE SHIPPED (archive / onboarding / import cadence)
+**Updated:** 2026-09-21T18:20:00+05:00 (Asia/Karachi)
 **PRD:** `/workspace/factory/research/PRD-first-mvp.md` + `/workspace/factory/research/PRD-raabta-ads-drop.md`
 
 ## What works
@@ -18,6 +18,7 @@
 - Dashboard: stage counts, overdue, due today, open pipeline value (PKR)
 - Owner CSV export (`/api/export/leads.csv`); agents get 403; formula-safe escaping
 - Phone quality validation + PK `03…` → `92…` rewrite on write
+- **v0.3:** soft-archive leads; empty-state onboarding (EN+RU); Ads Drop import cadence reminder; note templates; pipeline health strip; WA message chips; auth rate-limit
 - **Ads Drop (v0.2):** Meta CSV/XLSX upload → map → preview → commit; phone + `meta_lead_id` dedupe; import report; mapping presets; follow-up nudge; Nav **Ads Drop**; agent cannot note other owners’ leads via import; foreign `lead_id` redacted on agent reports
 - Seed script + README + `docs/PRODUCT.md` + `.env.example`
 - Tests: phone + smoke + API authz + imports — see `npm test`
@@ -68,15 +69,23 @@ npm test
 
 Upgraded `next` **14.2.35 → 15.5.25** (matched `eslint-config-next@15.5.25`), direct `postcss@8.5.28` + overrides, optional `vitest@3.2.7`.
 
+## v0.3 (2026-09-21)
+
+From `IMPROVE-raabta-desk-20260921-1815.md` P0 (+ P1 note templates + pipeline health).
+
+- Soft-archive, onboarding checklist, import cadence reminder
+- Note templates + pipeline health strip
+- See CHANGELOG `[0.3.0]`
+
 ## Next
 
-1. QA Bug Hunter: PRD §12 + brief §5 manual checklist
-2. Publish when GitHub connected (do not push yet)
+1. QA Bug Hunter smoke on archive / onboarding / cadence
+2. Publish via Master/GitHub Manager (do not push from coding agent)
 
 ## Gaps / known limits
 
 - No drag-and-drop (buttons only — acceptable for MVP)
-- No soft-delete / archive
+- Soft-archive shipped; hard delete still available for owners
 - No Urdu UI toggle (post-MVP)
 - Agents cannot reassign lead ownership (owner can)
 - `SESSION_SECRET` is **reserved / unused** in MVP (random UUID sessions in DB)

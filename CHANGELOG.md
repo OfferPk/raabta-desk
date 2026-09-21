@@ -11,6 +11,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/). Versioning: [SemVer](ht
 ### Fixed
 ### Security
 
+## [0.3.0] — 2026-09-21
+
+### Added
+
+- **Soft-archive leads** — `archived_at` on leads; Archive/Unarchive on lead detail; default board/queue/dashboard hide archived; Board **Show archived** filter; CSV export includes `archived_at` (full dump).
+- **Empty-state onboarding** — bilingual (EN + Roman Urdu) 3-step checklist on dashboard/board/Ads Drop when empty; dismissible via settings; **Seed sample lead** CTA.
+- **Ads Drop import cadence reminder** — owner setting `import_remind_days` (default 3); dashboard banner when no successful import in N days.
+- **Quick note templates** — 8 EN/Roman Urdu templates on lead detail (insert into note field).
+- **Pipeline health strip** — overdue count/value, stale open leads, imports this week (click-through).
+- Settings API `GET/PATCH /api/settings`; sample lead `POST /api/leads/sample`.
+- **Leads list** (`/leads`) with filters (stage/source/campaign/owner/archived) + nav link (coordinated).
+- **WhatsApp message chips** (coordinated): prefilled `wa.me?text=` chips on lead detail + follow-ups.
+- **Auth hardening** (coordinated): soft in-memory login/register rate limit (≤10 fails / 15 min → 429); register/agent password min **10** chars.
+
+### Changed
+
+- Dashboard stats exclude archived leads; expose archive/stale/import cadence fields.
+- Version **0.3.0**.
+
 ## [0.2.0] — 2026-09-21
 
 ### Added
@@ -62,6 +81,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/). Versioning: [SemVer](ht
 
 - GitHub: https://github.com/OfferPk/raabta-desk — release [v0.1.0](https://github.com/OfferPk/raabta-desk/releases/tag/v0.1.0).
 
-[Unreleased]: https://github.com/OfferPk/raabta-desk/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/OfferPk/raabta-desk/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/OfferPk/raabta-desk/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/OfferPk/raabta-desk/releases/tag/v0.2.0
 [0.1.0]: https://github.com/OfferPk/raabta-desk/releases/tag/v0.1.0

@@ -67,7 +67,7 @@ export default function RegisterPage() {
           </div>
           <div>
             <label className="label" htmlFor="password">
-              Password (min 6)
+              Password (min 10)
             </label>
             <input
               id="password"
@@ -75,7 +75,7 @@ export default function RegisterPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              minLength={6}
+              minLength={10}
               required
             />
           </div>

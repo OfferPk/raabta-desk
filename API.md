@@ -538,3 +538,23 @@ None implemented in application code.
 | 24 | DELETE | `/api/imports/presets/:id` |
 
 **18** `route.ts` files · **24** method+path handlers documented.
+
+
+## v0.3 endpoints
+
+### `GET /api/settings`
+Auth required. Returns `{ import_remind_days, onboarding_dismissed }`.
+
+### `PATCH /api/settings`
+Body: `{ import_remind_days?: number }` (owner only, 1–90) and/or `{ onboarding_dismissed?: boolean }`.
+
+### `POST /api/leads/sample`
+Creates a bilingual sample lead + note for the current user (onboarding CTA).
+
+### `PATCH /api/leads/:id` — archive
+Body `{ archived: true | false }` soft-archives / restores. Lead stays in DB; default lists hide archived.
+
+### `GET /api/leads?archived=1|only|all`
+- omitted / default: active only  
+- `1` or `all`: include archived  
+- `only`: archived only  

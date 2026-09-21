@@ -49,13 +49,19 @@ export function KanbanBoard({ leads: initial }: { leads: Lead[] }) {
             </div>
             <div className="space-y-2 p-2 min-h-[120px]">
               {col.map((lead) => (
-                <div key={lead.id} className="card !p-3 space-y-2">
+                <div
+                  key={lead.id}
+                  className={`card !p-3 space-y-2 ${
+                    lead.archived_at ? "opacity-60 ring-1 ring-slate-300" : ""
+                  }`}
+                >
                   <div className="flex items-start justify-between gap-2">
                     <Link
                       href={`/leads/${lead.id}`}
                       className="font-medium text-sm hover:text-teal-700"
                     >
                       {lead.name}
+                      {lead.archived_at ? " (archived)" : ""}
                     </Link>
                     <StageBadge stage={lead.stage} />
                   </div>

@@ -12,7 +12,9 @@ import {
 import { formatDateTime, formatMoney } from "@/lib/format";
 import { phoneHint } from "@/lib/phone";
 import { WhatsAppButton } from "./WhatsAppButton";
+import { WaMessageChips } from "./WaMessageChips";
 import { StageBadge } from "./StageBadge";
+import { NOTE_TEMPLATES } from "@/lib/note-templates";
 
 export function LeadDetail({
   lead: initial,
@@ -106,7 +108,7 @@ export function LeadDetail({
   }
 
   async function remove() {
-    if (!confirm("Delete this lead permanently?")) return;
+    if (!confirm("Delete this lead permanently? Prefer Archive to hide won/lost without deleting.")) return;
     setBusy(true);
     const res = await fetch(`/api/leads/${lead.id}`, { method: "DELETE" });
     setBusy(false);
@@ -114,6 +116,25 @@ export function LeadDetail({
       router.push("/board");
       router.refresh();
     }
+  }
+
+  async function toggleArchive() {
+    const archived = !lead.archived_at;
+    setBusy(true);
+    setError("");
+    const res = await fetch(`/api/leads/${lead.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ archived }),
+    });
+    const data = await res.json();
+    setBusy(false);
+    if (!res.ok) {
+      setError(data.error || "Archive failed");
+      return;
+    }
+    setLead(data.lead);
+    router.refresh();
   }
 
   function toLocalInput(iso: string | null): string {
@@ -130,6 +151,11 @@ export function LeadDetail({
           <h1 className="text-xl font-semibold">{lead.name}</h1>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <StageBadge stage={lead.stage} />
+            {lead.archived_at && (
+              <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-medium text-slate-700">
+                Archived
+              </span>
+            )}
             <span>{formatMoney(lead.value_cents, lead.currency)}</span>
             {lead.owner_name && <span>· {lead.owner_name}</span>}
           </div>
@@ -143,6 +169,15 @@ export function LeadDetail({
           >
             {editing ? "Cancel" : "Edit"}
           </button>
+          <button
+            type="button"
+            className="btn-secondary"
+            disabled={busy}
+            onClick={toggleArchive}
+            title="Soft-archive hides from board/queue; no hard delete"
+          >
+            {lead.archived_at ? "Unarchive" : "Archive"}
+          </button>
           {canDelete && (
             <button
               type="button"
@@ -154,6 +189,13 @@ export function LeadDetail({
             </button>
           )}
         </div>
+      </div>
+
+      <div className="space-y-1">
+        <div className="text-xs font-medium text-slate-500">
+          WhatsApp quick messages / Tez messages
+        </div>
+        <WaMessageChips phone={lead.phone} />
       </div>
 
       <div className="flex flex-wrap gap-1.5">
@@ -289,6 +331,24 @@ export function LeadDetail({
             ))}
           </ul>
         )}
+        <div className="space-y-1.5">
+          <div className="text-xs font-medium text-slate-500">
+            Quick templates / Tez notes
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {NOTE_TEMPLATES.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                className="btn-secondary !py-1 !px-2 text-[11px]"
+                onClick={() => setNoteBody(t.body)}
+                title={t.body}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
         <form onSubmit={addNote} className="flex flex-col gap-2 sm:flex-row">
           <input
             className="input flex-1"

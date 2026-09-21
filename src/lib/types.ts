@@ -37,6 +37,7 @@ export interface Lead {
   updated_at: string;
   meta_lead_id?: string | null;
   meta_campaign?: string | null;
+  archived_at?: string | null;
   owner_name?: string;
 }
 
@@ -63,6 +64,13 @@ export interface DashboardStats {
   open_pipeline_cents: number;
   currency: string;
   total_leads: number;
+  archived_count: number;
+  stale_leads: number;
+  overdue_value_cents: number;
+  imports_this_week: number;
+  last_import_at: string | null;
+  import_remind_days: number;
+  import_cadence_due: boolean;
 }
 
 export type ImportJobStatus =

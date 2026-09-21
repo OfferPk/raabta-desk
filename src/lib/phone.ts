@@ -33,11 +33,18 @@ export function preparePhoneForStorage(phone: string): string | null {
   return normalizePhoneDigits(rewritten);
 }
 
-/** Build https://wa.me/<digits> from a phone string, or null if invalid. */
-export function toWhatsAppUrl(phone: string): string | null {
+/**
+ * Build https://wa.me/<digits> from a phone string, or null if invalid.
+ * Optional `text` appends ?text= (encodeURIComponent) for prefilled compose.
+ */
+export function toWhatsAppUrl(phone: string, text?: string): string | null {
   const digits = normalizePhoneDigits(phone);
   if (!digits) return null;
-  return `https://wa.me/${digits}`;
+  const base = `https://wa.me/${digits}`;
+  if (text && text.trim()) {
+    return `${base}?text=${encodeURIComponent(text.trim())}`;
+  }
+  return base;
 }
 
 /**

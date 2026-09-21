@@ -29,6 +29,12 @@ export function getDb(): Database.Database {
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
   migrate(db);
+  // Harden file mode when the FS supports chmod (ignore errors on unsupported FS).
+  try {
+    if (fs.existsSync(dbPath)) fs.chmodSync(dbPath, 0o600);
+  } catch {
+    /* ignore */
+  }
   dbInstance = db;
   return db;
 }
@@ -154,7 +160,17 @@ function migrate(db: Database.Database) {
 
     CREATE UNIQUE INDEX IF NOT EXISTS idx_mapping_presets_fp
       ON import_mapping_presets(header_fingerprint);
+
+    CREATE TABLE IF NOT EXISTS workspace_settings (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
   `);
+
+  // v0.3: soft-archive leads
+  ensureColumn(db, "leads", "archived_at", "archived_at TEXT");
+  db.exec(`CREATE INDEX IF NOT EXISTS idx_leads_archived ON leads(archived_at);`);
 }
 
 /** Reset singleton — used in tests / seed. */

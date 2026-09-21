@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { OnboardingChecklist } from "@/components/OnboardingChecklist";
 
 type JobSummary = {
   id: string;
@@ -70,6 +71,8 @@ export default function ImportsPage() {
           commit into your shared desk.
         </p>
       </div>
+
+      <OnboardingChecklist show={jobs.length === 0} />
 
       <form onSubmit={onUpload} className="card space-y-3">
         <div>

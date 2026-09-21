@@ -30,6 +30,17 @@ describe("toWhatsAppUrl", () => {
   it("returns null for invalid phone", () => {
     expect(toWhatsAppUrl("abc")).toBeNull();
   });
+
+  it("appends ?text= when prefill provided", () => {
+    const url = toWhatsAppUrl("923001112233", "Assalam-o-alaikum");
+    expect(url).toBe(
+      "https://wa.me/923001112233?text=" + encodeURIComponent("Assalam-o-alaikum")
+    );
+  });
+
+  it("omits text when empty/whitespace", () => {
+    expect(toWhatsAppUrl("923001112233", "  ")).toBe("https://wa.me/923001112233");
+  });
 });
 
 describe("phoneHint", () => {
