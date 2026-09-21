@@ -4,7 +4,7 @@ WhatsApp-first shared lead & follow-up desk for SMB teams (especially Pakistan).
 
 ## Stack
 
-- Next.js 14 (App Router) + TypeScript + Tailwind CSS
+- Next.js 15 (App Router) + TypeScript + Tailwind CSS
 - SQLite via `better-sqlite3` (file under `data/`)
 - bcryptjs password hashes + httpOnly session cookies
 
@@ -62,6 +62,21 @@ See `.env.example`:
 7. WhatsApp button → `https://wa.me/<digits>`
 8. Dashboard counts + open pipeline value (PKR)
 9. Owner CSV export at `/api/export/leads.csv`
+10. **Ads Drop** — Meta CSV/XLSX import with map/preview/commit, dedupe, presets, nudge
+
+
+## Ads Drop (v0.2)
+
+Upload a **Meta Lead Ads / Instant Forms** CSV or XLSX → map columns → preview → commit into the shared desk.
+
+1. Open **Ads Drop** in the nav (`/imports`)
+2. Upload an Ads Manager leads export (max 5 MB / 2,000 rows)
+3. Confirm column mapping (smart defaults for `id`, `phone_number`, `full_name`, `campaign_name`, …)
+4. Preview tallies → **Commit import**
+5. Created leads get `source=meta_ads`, stage `new`, optional follow-up nudge, and an import note
+6. Re-uploading the same Meta `id`s creates **0** new leads (dedupe)
+
+No Meta App credentials or Marketing API — file upload only. Sample fixture: `fixtures/meta-leads-sample.csv`.
 
 ## Docs
 
@@ -77,3 +92,7 @@ See `.env.example`:
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Roman Urdu guide
+
+Poora step-by-step (download, run, features): **[GUIDE-roman-urdu.md](./GUIDE-roman-urdu.md)**
