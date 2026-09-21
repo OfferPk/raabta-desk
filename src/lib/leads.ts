@@ -1,5 +1,6 @@
 import { getDb } from "./db";
 import type { Lead, Note, Stage, DashboardStats } from "./types";
+import { preparePhoneForStorage } from "./phone";
 import { OPEN_STAGES, STAGES } from "./types";
 import { endOfTodayISO, startOfTodayISO } from "./format";
 
@@ -39,6 +40,35 @@ export function getLead(id: string): Lead | null {
   return row ?? null;
 }
 
+export function findLeadByMetaId(metaLeadId: string): Lead | null {
+  if (!metaLeadId) return null;
+  const db = getDb();
+  const row = db
+    .prepare(
+      `SELECT l.*, u.name as owner_name
+       FROM leads l JOIN users u ON u.id = l.owner_id
+       WHERE l.meta_lead_id = ?`
+    )
+    .get(metaLeadId) as Lead | undefined;
+  return row ?? null;
+}
+
+export function findLeadByPhone(phone: string): Lead | null {
+  if (!phone) return null;
+  const norm = preparePhoneForStorage(phone);
+  if (!norm) return null;
+  const db = getDb();
+  const rows = db
+    .prepare(
+      `SELECT l.*, u.name as owner_name
+       FROM leads l JOIN users u ON u.id = l.owner_id`
+    )
+    .all() as Lead[];
+  return (
+    rows.find((r) => preparePhoneForStorage(r.phone) === norm) ?? null
+  );
+}
+
 export function createLead(input: {
   name: string;
   phone: string;
@@ -49,14 +79,19 @@ export function createLead(input: {
   value_cents?: number;
   currency?: string;
   next_follow_up?: string | null;
+  meta_lead_id?: string | null;
+  meta_campaign?: string | null;
+  created_at?: string | null;
 }): Lead {
   const db = getDb();
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
+  const createdAt = input.created_at || now;
   db.prepare(
     `INSERT INTO leads
-      (id, name, phone, email, source, stage, owner_id, value_cents, currency, next_follow_up, created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      (id, name, phone, email, source, stage, owner_id, value_cents, currency,
+       next_follow_up, created_at, updated_at, meta_lead_id, meta_campaign)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   ).run(
     id,
     input.name.trim(),
@@ -68,8 +103,10 @@ export function createLead(input: {
     input.value_cents ?? 0,
     input.currency || "PKR",
     input.next_follow_up || null,
+    createdAt,
     now,
-    now
+    input.meta_lead_id?.trim() || null,
+    input.meta_campaign?.trim() || null
   );
   return getLead(id)!;
 }
@@ -86,6 +123,8 @@ export function updateLead(
     value_cents: number;
     currency: string;
     next_follow_up: string | null;
+    meta_lead_id: string | null;
+    meta_campaign: string | null;
   }>
 ): Lead | null {
   const existing = getLead(id);
@@ -105,12 +144,21 @@ export function updateLead(
       patch.next_follow_up !== undefined
         ? patch.next_follow_up
         : existing.next_follow_up,
+    meta_lead_id:
+      patch.meta_lead_id !== undefined
+        ? patch.meta_lead_id
+        : existing.meta_lead_id ?? null,
+    meta_campaign:
+      patch.meta_campaign !== undefined
+        ? patch.meta_campaign
+        : existing.meta_campaign ?? null,
   };
   const now = new Date().toISOString();
   db.prepare(
     `UPDATE leads SET
       name = ?, phone = ?, email = ?, source = ?, stage = ?,
       owner_id = ?, value_cents = ?, currency = ?, next_follow_up = ?,
+      meta_lead_id = ?, meta_campaign = ?,
       updated_at = ?
      WHERE id = ?`
   ).run(
@@ -123,6 +171,8 @@ export function updateLead(
     next.value_cents,
     next.currency,
     next.next_follow_up,
+    next.meta_lead_id,
+    next.meta_campaign,
     now,
     id
   );

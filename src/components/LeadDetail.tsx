@@ -183,6 +183,12 @@ export function LeadDetail({
           />
           <Field label="Created" value={formatDateTime(lead.created_at)} />
           <Field label="Updated" value={formatDateTime(lead.updated_at)} />
+          {lead.meta_lead_id ? (
+            <Field label="Meta lead id" value={lead.meta_lead_id} />
+          ) : null}
+          {lead.meta_campaign ? (
+            <Field label="Meta campaign" value={lead.meta_campaign} />
+          ) : null}
           {phoneHint(lead.phone) && (
             <p className="sm:col-span-2 text-xs text-amber-700">
               {phoneHint(lead.phone)}

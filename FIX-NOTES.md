@@ -67,3 +67,42 @@
 - `npm test` — 18 passed
 - `npm run build` — success (Next.js 15.5.25)
 - No git push / remotes
+
+## Ads Drop v0.2.0 (2026-09-21, Asia/Karachi)
+
+**Goal:** Ship Raabta Ads Drop — Meta Lead Ads CSV/XLSX → Desk leads — per `BUILD-BRIEF-raabta-ads-drop.md` + `PRD-raabta-ads-drop.md`.
+
+| Area | Change | Files |
+|------|--------|-------|
+| Schema | Idempotent `meta_lead_id` / `meta_campaign` on `leads` + indexes; tables `import_jobs`, `import_job_rows` (`raw_json` NOT NULL), `import_mapping_presets` | `src/lib/db.ts` |
+| Domain | Parse CSV/XLSX; fingerprint + Meta defaults; preview/commit txn; lead meta helpers | `src/lib/import-parse.ts`, `import-map.ts`, `imports.ts`, `leads.ts`, `types.ts` |
+| API | PRD §7 `/api/imports/**` + presets; authz owner vs agent | `src/app/api/imports/**` |
+| UI | Nav **Ads Drop**; list/upload, map, preview, report; meta fields on lead detail | `Nav.tsx`, `(desk)/imports/**`, `LeadDetail.tsx` |
+| Fixtures / tests | `fixtures/meta-leads-sample.csv` + `.xlsx`; vitest parse/map/commit/idempotency/authz | `fixtures/**`, `tests/imports.test.ts` |
+| Deps | `papaparse@5.5.2`, `xlsx@0.18.5`, `@types/papaparse@5.3.15` — **no Meta SDK** | `package.json` |
+| Docs | README Ads Drop; PRODUCT Ads Drop; STATUS feature complete; version **0.2.0** | `README.md`, `docs/PRODUCT.md`, `STATUS.md` |
+
+**Verification:** `npm test` 27 passed; `npm run build` success.
+
+## Ads Drop QA (2026-09-21)
+
+| ID | Change | Files |
+|----|--------|-------|
+| **AD-01** | `findLeadByPhone` normalizes both query and stored phones via `preparePhoneForStorage`; seed Sana phone → `923007778899`. | `src/lib/leads.ts`, `scripts/seed.ts`, `tests/imports.test.ts` |
+| **AD-02** | `nudge_hours` must be `null` or `{0,2,4,24}` else 400. | `src/lib/imports.ts` |
+| **AD-03** | `first_name` + `last_name` both map to `name` when no full_name. | `src/lib/import-map.ts` |
+| **AD-04** | Import write neutralizes leading `= + - @` on names (`sanitizeSpreadsheetText`). | `src/lib/imports.ts` |
+
+## Ads Drop security M1/M2/M3 (2026-09-21, Asia/Karachi)
+
+**Source:** `SECURITY-REPORT-ADS-DROP.md`. H1 (`xlsx` HIGH) left accepted / unchanged.
+
+| ID | Change | Files |
+|----|--------|-------|
+| **M1** | `evaluateRows` takes `SessionUser`; `note_on_match` only when `canAccessLead(user, existing)`; else `duplicate_phone` (preview tallies match commit). | `src/lib/imports.ts` |
+| **M2** | `serializeJobRow` redacts `lead_id` when viewer cannot access that lead; used by GET job rows + report CSV. Owners keep full ids. | `src/lib/imports.ts`, `src/app/api/imports/[jobId]/route.ts`, `report.csv/route.ts` |
+| **M3** | Claim `committing` with `UPDATE … WHERE status NOT IN ('done','committing')` + `changes` check; run `evaluateRows` + writes inside one SQLite transaction. | `src/lib/imports.ts` |
+
+**Tests:** agent foreign `note_on_match` → `duplicate_phone` / no note; agent job/report omits foreign `lead_id`.
+
+**Docs:** GUIDE Ads Drop authz line; STATUS security fix note.

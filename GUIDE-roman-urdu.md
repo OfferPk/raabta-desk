@@ -227,7 +227,10 @@ CSV formula-injection se bachao ke liye cells sanitize hote hain.
 7. Report dekho / CSV report  
 8. Mapping **preset** save karo taake agli dafa map dobara na karna pade  
 
-**Dedupe:** same phone (normalize karke) ya same Meta lead id → duplicate nahi banti.
+**Dedupe:** phone dono taraf normalize hoti hai (`+92 300…` aur `92300…` same) — ya same Meta lead id → nayi lead nahi banti.
+**Nudge:** sirf `0 / 2 / 4 / 24` hours (ya off). Galat value → error.
+**Safety:** naam jo `= + - @` se shuru hon unhein import pe neutralize kiya jata hai (Excel formula injection).
+**Authz:** Agent dusre owner ki lead pe phone match se note nahi laga sakta (import pe `duplicate_phone`); report mein foreign `lead_id` agent ko nahi dikhta.
 
 **Sample file:** repo mein `fixtures/meta-leads-sample.csv` (agar maujood ho).
 

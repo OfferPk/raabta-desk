@@ -28,3 +28,16 @@ Notes are append-only. Use them after every meaningful chat so the next teammate
 ## Export
 
 Owners can download all leads as CSV from the nav (**Export CSV**) or `/api/export/leads.csv`.
+
+
+## Ads Drop
+
+For teams buying Meta Lead Ads: download the leads CSV/XLSX from Ads Manager, then use **Ads Drop** in Raabta.
+
+- Map Meta columns to name / phone / email / meta lead id / campaign (or append Q&A to an import note)
+- Phone is required and normalized the same way as manual leads (`03…` → `92…`)
+- Dedupe by Meta lead id, then by phone; optional “note on phone match”
+- Commit creates shared desk leads (`source=meta_ads`) and can nudge them into **Follow-ups** immediately
+- Save a mapping preset so the next weekly download maps itself when headers match
+
+This does **not** connect to Meta’s Marketing API or WhatsApp Business API — it only reads the file you upload.

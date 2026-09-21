@@ -139,7 +139,7 @@ const seeds: LeadSeed[] = [
   },
   {
     name: "Sana Malik",
-    phone: "+92 300 7778899",
+    phone: "923007778899",
     email: "sana@example.com",
     source: "Instagram",
     stage: "follow_up",
