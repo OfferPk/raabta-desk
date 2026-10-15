@@ -3,42 +3,63 @@
 @tailwind utilities;
 
 :root {
-  --background: #f4f6f8;
-  --foreground: #0f172a;
-  --brand: #0d9488;
-  --brand-dark: #0f766e;
+  --background: #f5f7f6;
+  --foreground: #142522;
+  --brand: #0f766e;
+  --brand-dark: #115e59;
   --wa: #25d366;
+}
+
+html {
+  background: var(--background);
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background:
+    radial-gradient(ellipse at 8% 0%, rgb(20 184 166 / 7%), transparent 32rem),
+    var(--background);
   min-height: 100dvh;
+}
+
+::selection {
+  color: #134e4a;
+  background: rgb(153 246 228 / 70%);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 3px;
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition duration-150 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply btn bg-teal-600 text-white hover:bg-teal-700;
+    @apply btn bg-teal-700 text-white shadow-sm hover:bg-teal-800 active:translate-y-px;
   }
   .btn-secondary {
-    @apply btn bg-white text-slate-700 border border-slate-200 hover:bg-slate-50;
+    @apply btn border border-slate-200/90 bg-white text-slate-700 shadow-sm hover:border-slate-300 hover:bg-slate-50 active:translate-y-px;
   }
   .btn-danger {
-    @apply btn bg-red-600 text-white hover:bg-red-700;
+    @apply btn bg-red-600 text-white shadow-sm hover:bg-red-700 active:translate-y-px;
   }
   .btn-wa {
-    @apply btn bg-[#25D366] text-white hover:bg-[#1ebe57];
+    @apply btn bg-[#25D366] text-white shadow-sm hover:bg-[#1ebe57] active:translate-y-px;
   }
   .input {
-    @apply w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100;
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-100/80;
   }
   .label {
-    @apply mb-1 block text-xs font-medium text-slate-600;
+    @apply mb-1.5 block text-xs font-semibold text-slate-600;
   }
   .card {
-    @apply rounded-xl border border-slate-200 bg-white p-4 shadow-sm;
+    @apply rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_30px_rgba(15,23,42,0.04)];
   }
 }
